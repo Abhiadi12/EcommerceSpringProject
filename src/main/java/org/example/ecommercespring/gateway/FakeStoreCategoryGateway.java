@@ -5,6 +5,8 @@ import org.example.ecommercespring.dto.FakeStoreCategoryResponseDTO;
 import org.example.ecommercespring.dto.FakeStoreProductResponseDTO;
 import org.example.ecommercespring.dto.ProductDTO;
 import org.example.ecommercespring.gateway.api.FakeStoreCategoryApi;
+import org.example.ecommercespring.mapper.GetAllCategoryMapper;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Component
+@Primary
 public class FakeStoreCategoryGateway implements ICategoryGateway{
 
     private final FakeStoreCategoryApi fakeStoreCategoryApi;
@@ -32,11 +35,7 @@ public class FakeStoreCategoryGateway implements ICategoryGateway{
         }
 
         // 3. Map the response to a list of CategoryDTO objects
-        return response.getCategories().stream()
-                .map(category -> CategoryDTO.builder()
-                        .name(category)
-                        .build())
-                .toList();
+        return GetAllCategoryMapper.toCategoryDto(response);
     }
 
     @Override
